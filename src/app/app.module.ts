@@ -6,6 +6,8 @@ import { CoreModule } from './core/core.module';
 import { ShellComponent } from './shell/shell.component';
 import { TodoFormComponent } from './todo-form/todo-form.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
     TodoFormComponent,
     TodoListComponent,
   ],
-  imports: [BrowserModule, CoreModule, ReactiveFormsModule],
+  imports: [BrowserModule, CoreModule, ReactiveFormsModule, ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
   providers: [],
   bootstrap: [AppComponent],
 })
