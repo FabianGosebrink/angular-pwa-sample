@@ -5,27 +5,28 @@ import { Todo } from '../models/todo.model';
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.css'],
+  styleUrls: ['./shell.component.css']
 })
 export class ShellComponent implements OnInit {
   items: Todo[] = [];
   constructor(public todoService: TodoService) {}
 
   ngOnInit() {
-    this.todoService
-      .getAllTodos()
-      .subscribe((items: Todo[]) => (this.items = items));
+    this.getData();
   }
 
   addTodo(description: string) {
-    this.todoService.addTodo(description);
-    this.todoService
-      .getAllTodos()
-      .subscribe((items: Todo[]) => (this.items = items));
+    this.todoService.addItem(description).subscribe(() => this.getData());
   }
 
   markAsDone(todo: Todo) {
     todo.done = true;
-    this.todoService.updateTodo(todo);
+    this.todoService.updateItem(todo).subscribe(() => this.getData());
+  }
+
+  private getData() {
+    this.todoService
+      .getItems()
+      .subscribe((items: Todo[]) => (this.items = items));
   }
 }

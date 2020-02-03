@@ -1,71 +1,33 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Observer } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Todo } from '../models/todo.model';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class TodoService {
-  private existingTodos: Todo[] = [];
+  private url = `${environment.backendUrl}${environment.api}todos`;
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
-  getAllTodos(): Observable<Todo[]> {
-    return Observable.create((observer: Observer<Todo[]>) => {
-      setTimeout(() => {
-        observer.next(this.existingTodos);
-        observer.complete();
-      }, 200);
-    });
+  getItems() {
+    return this.http.get<Todo[]>(this.url);
   }
 
-  getSingleTodo(id: string): Observable<Todo> {
-    return Observable.create((observer: Observer<Todo>) => {
-      setTimeout(() => {
-        observer.next(this.existingTodos.find(x => x.id === id));
-        observer.complete();
-      }, 200);
-    });
+  getItem(id: string) {
+    return this.http.get<Todo>(`${this.url}/${id}`);
   }
 
-  addTodo(description: string): Todo {
-    const toAdd: Todo = new Todo();
-    toAdd.created = new Date();
-    toAdd.id = this.guid();
-    toAdd.done = false;
-    toAdd.description = description;
-    this.existingTodos.push(toAdd);
-    return toAdd;
+  addItem(value: string) {
+    return this.http.post<Todo>(this.url, { value });
   }
 
-  updateTodo(toUpdate: Todo): Todo {
-    this.existingTodos.map(obj =>
-      this.existingTodos.find(o => o.id === obj.id)
-    );
-    return toUpdate;
+  updateItem(value: Todo) {
+    return this.http.put<Todo>(`${this.url}/${value.id}`, value);
   }
 
-  deleteTodo(id: string) {
-    this.existingTodos = this.existingTodos.filter(item => item.id !== id);
-  }
-
-  private guid() {
-    function s4() {
-      return Math.floor((1 + Math.random()) * 0x10000)
-        .toString(16)
-        .substring(1);
-    }
-    return (
-      s4() +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      '-' +
-      s4() +
-      s4() +
-      s4()
-    );
+  deleteItem(value: Todo) {
+    return this.http.delete(`${this.url}/${value.id}`);
   }
 }
