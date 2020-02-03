@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-prod": "ng build --prod",
-    "build-prod-and-serve": "npm run build-prod && http-server -p 8080 -c-1 dist/todoapp"
+    "build-prod-and-serve": "npm run build-prod && http-server -p 5678 -c-1 dist/todo-app"
   },
   "private": true,
   "dependencies": {
