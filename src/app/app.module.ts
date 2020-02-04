@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -12,10 +13,10 @@ import { TodoListComponent } from './todo-list/todo-list.component';
     AppComponent,
     ShellComponent,
     TodoFormComponent,
-    TodoListComponent,
+    TodoListComponent
   ],
-  imports: [BrowserModule, CoreModule, ReactiveFormsModule],
+  imports: [BrowserModule, CoreModule, ReactiveFormsModule, HttpClientModule],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent]
 })
 export class AppModule {}
